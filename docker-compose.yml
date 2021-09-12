@@ -1,0 +1,26 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend:/backend
+    tty: true
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=develop
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - TZ=Asia/Tokyo
+    platform: linux/x86_64
